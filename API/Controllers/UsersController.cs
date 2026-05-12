@@ -1,5 +1,5 @@
-﻿using Domain.Models;
-using Domain.Services;
+﻿using Domain.Interfaces;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,9 +8,9 @@ namespace API.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private UserService _userService;
+        private IUserService _userService;
 
-        public UsersController(UserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
