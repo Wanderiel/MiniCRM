@@ -7,9 +7,8 @@ namespace Infrastructure.Repositories
     {
         private readonly List<User> _users = new List<User>();
 
-        public void Create(int id, string name, string description)
+        public void Create(User user)
         {
-            User user = new User(id, name, description);
             _users.Add(user);
         }
 

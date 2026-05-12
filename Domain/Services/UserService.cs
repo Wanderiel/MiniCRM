@@ -14,7 +14,8 @@ namespace Domain.Services
 
         public bool Create(int id, string name, string description)
         {
-            _repository.Create(id, name, description);
+            User user = new User(id, name, description);
+            _repository.Create(user);
 
             return true;
         }

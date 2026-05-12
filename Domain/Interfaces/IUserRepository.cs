@@ -4,7 +4,7 @@ namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
-        void Create(int id, string name, string description);
+        void Create(User user);
 
         User GetById(int id);
 
