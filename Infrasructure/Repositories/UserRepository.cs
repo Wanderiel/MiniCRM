@@ -7,7 +7,6 @@ namespace Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private PostgresContext _context;
-        private readonly List<User> _users = new List<User>();
 
         public UserRepository(PostgresContext context)
         {
@@ -16,17 +15,18 @@ namespace Infrastructure.Repositories
 
         public void Create(User user)
         {
-            _users.Add(user);
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _users.ToArray();
+            return _context.Users.ToArray();
         }
 
         public User GetById(int id)
         {
-            return _users.FirstOrDefault(user => user.Id == id);
+            return _context.Users.FirstOrDefault(user => user.Id == id);
         }
     }
 }
