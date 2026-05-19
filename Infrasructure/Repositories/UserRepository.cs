@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -13,20 +14,16 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users.ToArray();
-        }
+        public async Task<List<User>> GetAllAsync() =>
+            await _context.Users.ToListAsync();
 
-        public User GetById(int id)
-        {
-            return _context.Users.FirstOrDefault(user => user.Id == id);
-        }
+        public async Task<User?> GetByIdAsync(int id) =>
+            await _context.Users.FindAsync(id);
     }
 }

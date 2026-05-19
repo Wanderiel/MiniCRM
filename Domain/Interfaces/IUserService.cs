@@ -6,8 +6,8 @@ namespace Domain.Interfaces
     {
         bool Create(int id, string name, string description);
 
-        User Get(int id);
+        Task<User> GetAsync(int id);
 
-        IEnumerable<User> GetAll();
+        Task<List<User>> GetAllAsync();
     }
 }
