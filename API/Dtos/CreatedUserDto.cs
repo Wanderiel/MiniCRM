@@ -2,11 +2,6 @@
 {
     public class CreatedUserDto
     {
-        public CreatedUserDto(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; private set; }
+        public string Name { get; set; }
     }
 }

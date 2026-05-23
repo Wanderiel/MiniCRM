@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<User> GetUser(int id) =>
+        public async Task<User?> GetUser(int id) =>
             await _userService.GetAsync(id);
 
         [HttpGet]

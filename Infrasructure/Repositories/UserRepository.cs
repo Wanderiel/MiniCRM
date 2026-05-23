@@ -25,10 +25,10 @@ namespace Infrastructure.Repositories
         public async Task<List<User>> GetAllAsync() =>
             await _context.Users.Select(user => user.ToEntity()).ToListAsync();
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             UserDbModel? user = await _context.Users.FindAsync(id);
-            return user.ToEntity();
+            return user?.ToEntity();
         }
     }
 }

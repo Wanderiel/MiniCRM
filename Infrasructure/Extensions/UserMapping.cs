@@ -6,7 +6,11 @@ namespace Infrastructure.Extensions
     public static class UserMapping
     {
         public static UserDbModel ToDbModel(this User user) =>
-            new UserDbModel(user.Id, user.Name);
+            new UserDbModel
+            {
+                Id = user.Id,
+                Name = user.Name
+            };
 
         public static User ToEntity(this UserDbModel dbModel) =>
             new User(dbModel.Id, dbModel.Name);
