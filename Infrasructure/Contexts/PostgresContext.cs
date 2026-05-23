@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Infrastructure.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts
@@ -10,7 +10,7 @@ namespace Infrastructure.Contexts
             Database.EnsureCreated();
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserDbModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

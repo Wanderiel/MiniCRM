@@ -12,10 +12,10 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public bool Create(int id, string name, string description)
+        public bool Create(string name)
         {
-            User user = new User(id, name, description);
-            _repository.CreateAsync(user);
+            User user = new User(name);
+            _repository.InsertAsync(user);
 
             return true;
         }

@@ -16,9 +16,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public string Create(int id, string name, string description)
+        public string Create(string name)
         {
-            bool result = _userService.Create(id, name, description);
+            bool result = _userService.Create(name);
             return result.ToString();
         }
 

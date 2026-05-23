@@ -4,10 +4,8 @@ namespace Domain.Interfaces
 {
     public interface IUserService
     {
-        bool Create(int id, string name, string description);
-
+        bool Create(string name);
         Task<User> GetAsync(int id);
-
         Task<List<User>> GetAllAsync();
     }
 }
