@@ -6,7 +6,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : Controller
     {
         private IUserService _userService;
 
@@ -16,18 +16,33 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public string Create(string name)
+        public IActionResult Create(string name)
         {
             bool result = _userService.Create(name);
-            return result.ToString();
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<User?> GetUser(int id) =>
-            await _userService.GetAsync(id);
+        public async Task<IActionResult> Get(int id)
+        {
+            User user = await _userService.GetAsync(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
         [HttpGet]
-        public async Task<List<User>> GetAll() =>
-            await _userService.GetAllAsync();
+        public async Task<IActionResult> GetAll()
+        {
+            List<User> users = await _userService.GetAllAsync();
+
+            if (users == null || users.Count == 0)
+                return NotFound();
+
+            return Ok(users);
+        }
     }
 }
