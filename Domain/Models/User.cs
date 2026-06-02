@@ -2,34 +2,15 @@
 {
     public class User
     {
-        public User()
-        { }
-
-        public User(string name)
-        {
-            Name = name;
-        }
-
-        public User(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public User(int id, string name, string description)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-        }
-
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string? Description { get; private set; }
-
-        public override string ToString()
-        {
-            return $"{Id} {Name} {Description}";
-        }
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? AvatarUrl { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string Sources { get; set; }
     }
 }

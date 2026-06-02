@@ -16,17 +16,27 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string name)
+        public async Task<IActionResult> Create(string username, string email, string firsName, string lastName)
         {
-            bool result = _userService.Create(name);
+            User user = new User()
+            {
+                Username = username,
+                Email = email,
+                FirstName = firsName,
+                LastName = lastName,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+            };
 
-            return Ok(result);
+            await _userService.AddAsync(user);
+
+            return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            User user = await _userService.GetAsync(id);
+            User? user = await _userService.GetAsync(id);
 
             if (user == null)
                 return NotFound();

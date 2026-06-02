@@ -5,25 +5,20 @@ namespace Domain.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _repository;
+        private readonly IUserRepository _repository;
 
         public UserService(IUserRepository repository)
         {
             _repository = repository;
         }
 
-        public bool Create(string name)
-        {
-            User user = new User(name);
-            _repository.InsertAsync(user);
-
-            return true;
-        }
+        public async Task AddAsync(User user) =>
+            await _repository.InsertAsync(user);
 
         public async Task<List<User>> GetAllAsync() =>
             await _repository.GetAllAsync();
 
-        public async Task<User> GetAsync(int id) =>
+        public async Task<User?> GetAsync(int id) =>
             await _repository.GetByIdAsync(id);
     }
 }
