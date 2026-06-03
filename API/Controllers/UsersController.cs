@@ -16,19 +16,22 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string username, string email, string firsName, string lastName)
+        public async Task<IActionResult> Create(string username, string email, string password, string passwrord2, string firsName, string lastName)
         {
+            if (password == passwrord2 == false)
+                return Content("Пароли не совпадают");
+
             User user = new User()
             {
                 Username = username,
                 Email = email,
                 FirstName = firsName,
                 LastName = lastName,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
+                //CreatedAt = DateTime.UtcNow,
+                //UpdatedAt = DateTime.UtcNow,
             };
 
-            await _userService.AddAsync(user);
+            await _userService.AddAsync(user, password);
 
             return Ok();
         }

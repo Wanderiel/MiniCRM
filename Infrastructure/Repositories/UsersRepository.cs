@@ -3,6 +3,7 @@ using Domain.Models;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;
 using Infrastructure.Extensions;
+using Infrastructure.HashGenerators;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -16,9 +17,12 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task InsertAsync(User user)
+        public async Task InsertAsync(User user, string password)
         {
-            await _context.Users.AddAsync(user.ToDbModel());
+            UserDbModel dbModel = user.ToDbModel();
+            dbModel.PasswordHash = SHA256HashGenerator.Compute(password);
+
+            await _context.Users.AddAsync(dbModel);
             await _context.SaveChangesAsync();
         }
 

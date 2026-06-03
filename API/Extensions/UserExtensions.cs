@@ -10,7 +10,6 @@ namespace API.Extensions
             {
                 Username = userDto.Username,
                 Email = userDto.Email,
-                PasswordHash = userDto.PasswordHash,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 AvatarUrl = userDto.AvatarUrl,

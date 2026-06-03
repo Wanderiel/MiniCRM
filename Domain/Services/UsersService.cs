@@ -12,8 +12,8 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public async Task AddAsync(User user) =>
-            await _repository.InsertAsync(user);
+        public async Task AddAsync(User user, string password) =>
+            await _repository.InsertAsync(user, password);
 
         public async Task<List<User>> GetAllAsync() =>
             await _repository.GetAllAsync();
