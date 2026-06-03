@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces
 {
-    public interface IUserService
+    public interface IUsersService
     {
         Task AddAsync(User user);
         Task<User?> GetAsync(int id);

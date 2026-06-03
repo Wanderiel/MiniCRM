@@ -3,11 +3,11 @@ using Domain.Models;
 
 namespace Domain.Services
 {
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
-        private readonly IUserRepository _repository;
+        private readonly IUsersRepository _repository;
 
-        public UserService(IUserRepository repository)
+        public UsersService(IUsersRepository repository)
         {
             _repository = repository;
         }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         private PostgresContext _context;
 
-        public UserRepository(PostgresContext context)
+        public UsersRepository(PostgresContext context)
         {
             _context = context;
         }

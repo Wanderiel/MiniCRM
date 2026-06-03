@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace API.Extensions
 {
-    public static class UserMapping
+    public static class UserExtensions
     {
         public static User ToEntity(this CreatedUserDto userDto) =>
             new User()

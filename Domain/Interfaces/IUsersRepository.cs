@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces
 {
-    public interface IUserRepository
+    public interface IUsersRepository
     {
         Task InsertAsync(User user);
         Task<User?> GetByIdAsync(int id);

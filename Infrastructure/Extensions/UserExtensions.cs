@@ -3,7 +3,7 @@ using Infrastructure.DbModels;
 
 namespace Infrastructure.Extensions
 {
-    public static class UserMapping
+    public static class UserExtensions
     {
         public static UserDbModel ToDbModel(this User user) =>
             new UserDbModel
