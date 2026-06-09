@@ -27,8 +27,6 @@ namespace API.Controllers
                 Email = email,
                 FirstName = firsName,
                 LastName = lastName,
-                //CreatedAt = DateTime.UtcNow,
-                //UpdatedAt = DateTime.UtcNow,
             };
 
             await _userService.AddAsync(user, password);
