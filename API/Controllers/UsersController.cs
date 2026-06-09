@@ -15,8 +15,8 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(string username, string email, string password, string passwrord2, string firsName, string lastName)
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create(string username, string email, string firsName, string lastName, string password, string passwrord2)
         {
             if (password == passwrord2 == false)
                 return Content("Пароли не совпадают");
