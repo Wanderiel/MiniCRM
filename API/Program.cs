@@ -16,7 +16,7 @@ builder.Services.AddDbContext<PostgresContext>(options =>
 });
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<UsersService>();
 
 var app = builder.Build();
 

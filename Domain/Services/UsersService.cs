@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.Services
 {
-    public class UsersService : IUsersService
+    public class UsersService
     {
         private readonly IUsersRepository _repository;
 
@@ -20,5 +20,8 @@ namespace Domain.Services
 
         public async Task<User?> GetAsync(int id) =>
             await _repository.GetByIdAsync(id);
+
+        public async Task<bool> DeleteAsync(int id) =>
+            await _repository.DeleteAsync(id);
     }
 }

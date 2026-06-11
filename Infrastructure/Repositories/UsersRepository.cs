@@ -34,5 +34,18 @@ namespace Infrastructure.Repositories
             UserDbModel? user = await _context.Users.FindAsync(id);
             return user?.ToEntity();
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            UserDbModel? dbModel = await _context.Users.FindAsync(id);
+
+            if (dbModel == null)
+                return false;
+
+            _context.Users.Remove(dbModel);
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 }

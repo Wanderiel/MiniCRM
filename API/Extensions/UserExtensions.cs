@@ -13,8 +13,6 @@ namespace API.Extensions
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 AvatarUrl = userDto.AvatarUrl,
-                CreatedAt = userDto.CreatedAt,
-                UpdatedAt = userDto.UpdatedAt,
             };
     }
 }

@@ -1,5 +1,7 @@
-﻿using Domain.Interfaces;
+﻿using API.Dtos;
+using API.Extensions;
 using Domain.Models;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,28 +10,21 @@ namespace API.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private IUsersService _userService;
+        private UsersService _userService;
 
-        public UsersController(IUsersService userService)
+        public UsersController(UsersService userService)
         {
             _userService = userService;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create(string username, string email, string firsName, string lastName, string password, string passwrord2)
+        [HttpPost]
+        public async Task<IActionResult> Create(CreatedUserDto userDto)
         {
-            if (password == passwrord2 == false)
-                return Content("Пароли не совпадают");
+            if (userDto.Password1 == userDto.Password2 == false)
+                return BadRequest("Пароли не совпадают");
 
-            User user = new User()
-            {
-                Username = username,
-                Email = email,
-                FirstName = firsName,
-                LastName = lastName,
-            };
-
-            await _userService.AddAsync(user, password);
+            User user = userDto.ToEntity();
+            await _userService.AddAsync(user, userDto.Password1);
 
             return Ok();
         }
@@ -54,6 +49,17 @@ namespace API.Controllers
                 return NotFound();
 
             return Ok(users);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool result = await _userService.DeleteAsync(id);
+
+            if (result == false)
+                return NotFound();
+
+            return Ok();
         }
     }
 }
