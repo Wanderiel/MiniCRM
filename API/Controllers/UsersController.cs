@@ -18,7 +18,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreatedUserDto userDto)
+        public async Task<IActionResult> Create([FromBody] CreatedUserDto userDto)
         {
             if (userDto.Password1 == userDto.Password2 == false)
                 return BadRequest("Пароли не совпадают");
@@ -52,7 +52,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, UpdateUserDto userDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
         {
             User? user = await _userService.UpdateAsync(id, userDto.ToEntity());
 

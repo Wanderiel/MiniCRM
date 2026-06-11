@@ -40,7 +40,8 @@ namespace Infrastructure.Contexts
 
             modelBuilder.Entity<UserDbModel>()
                 .Property(user => user.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAddOrUpdate();
 
             //modelBuilder.Entity<ProjectDbModel>()
             //    .HasMany(p => p.Tasks)
@@ -75,7 +76,7 @@ namespace Infrastructure.Contexts
                 .ToArray();
 
             foreach (var entity in modifiedEntities)
-                entity.UpdatedAt = DateTime.Now;
+                entity.UpdatedAt = DateTime.UtcNow;
         }
     }
 }
