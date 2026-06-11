@@ -14,5 +14,14 @@ namespace API.Extensions
                 LastName = userDto.LastName,
                 AvatarUrl = userDto.AvatarUrl,
             };
+
+        public static User ToEntity(this UpdateUserDto userDto) =>
+            new User()
+            {
+                Email = userDto.Email,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                AvatarUrl = userDto.AvatarUrl,
+            };
     }
 }

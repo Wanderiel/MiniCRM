@@ -51,6 +51,17 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, UpdateUserDto userDto)
+        {
+            User? user = await _userService.UpdateAsync(id, userDto.ToEntity());
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

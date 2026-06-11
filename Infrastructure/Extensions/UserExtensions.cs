@@ -31,5 +31,20 @@ namespace Infrastructure.Extensions
                 UpdatedAt = dbModel.UpdatedAt,
                 Sources = "Database",
             };
+
+        public static void Update(this UserDbModel dbModel, User user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Email) == false)
+                dbModel.Email = user.Email;
+
+            if (string.IsNullOrWhiteSpace(user.FirstName) == false)
+                dbModel.FirstName = user.FirstName;
+
+            if (string.IsNullOrWhiteSpace(user.LastName) == false)
+                dbModel.LastName = user.LastName;
+
+            if (string.IsNullOrWhiteSpace(user.AvatarUrl) == false)
+                dbModel.AvatarUrl = user.AvatarUrl;
+        }
     }
 }

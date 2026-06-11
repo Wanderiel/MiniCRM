@@ -21,6 +21,9 @@ namespace Domain.Services
         public async Task<User?> GetAsync(int id) =>
             await _repository.GetByIdAsync(id);
 
+        public async Task<User?> UpdateAsync(int id, User user) =>
+            await _repository.UpdateAsync(id, user);
+
         public async Task<bool> DeleteAsync(int id) =>
             await _repository.DeleteAsync(id);
     }

@@ -35,6 +35,19 @@ namespace Infrastructure.Repositories
             return user?.ToEntity();
         }
 
+        public async Task<User?> UpdateAsync(int id, User user)
+        {
+            UserDbModel? dbModel = await _context.Users.FindAsync(id);
+
+            if (dbModel == null)
+                return null;
+
+            dbModel.Update(user);
+            _context.SaveChanges();
+
+            return dbModel.ToEntity();
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             UserDbModel? dbModel = await _context.Users.FindAsync(id);
