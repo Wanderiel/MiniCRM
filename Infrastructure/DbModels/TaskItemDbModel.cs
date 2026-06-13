@@ -23,9 +23,9 @@ namespace Infrastructure.DbModels
         public int AssignedToId { get; set; }
         [AllowNull]
         public DateOnly? DueDate { get; set; } = null!;
-        [Required, Timestamp]
+        [Required]
         public DateTime CreatedAt { get; set; }
-        [Required, Timestamp]
+        [Required]
         public DateTime UpdatedAt { get; set; }
     }
 }
