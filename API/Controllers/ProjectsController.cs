@@ -26,5 +26,49 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            Project? project = await _projectsService.GetAsync(id);
+
+            if (project == null)
+                return NotFound();
+
+            return Ok(project);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            List<Project> projects = await _projectsService.GetAllAsync();
+
+            if (projects == null || projects.Count == 0)
+                return NotFound();
+
+            return Ok(projects);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, Project project)
+        {
+            bool result = await _projectsService.UpdateAsync(id, project);
+
+            if (result == false)
+                return NotFound();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool result = await _projectsService.DeleteAsync(id);
+
+            if (result == false)
+                return NotFound();
+
+            return Ok();
+        }
     }
 }

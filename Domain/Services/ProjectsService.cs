@@ -20,5 +20,11 @@ namespace Domain.Services
 
         public async Task<Project?> GetAsync(int id) =>
             await _repository.GetByIdAsync(id);
+
+        public async Task<bool> UpdateAsync(int id, Project project) =>
+            await _repository.UpdateAsync(id, project);
+
+        public async Task<bool> DeleteAsync(int id) =>
+            await _repository.DeleteAsync(id);
     }
 }

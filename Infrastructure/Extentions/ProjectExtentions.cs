@@ -29,5 +29,23 @@ namespace Infrastructure.Extentions
                 CreatedAt= dbModel.CreatedAt,
                 Sources = "Database",
             };
+
+        public static void Update(this ProjectDbModel dbModel, Project project)
+        {
+            if (string.IsNullOrWhiteSpace(project.Name) == false)
+                dbModel.Name = project.Name;
+
+            if (string.IsNullOrWhiteSpace(project.Description) == false)
+                dbModel.Description = project.Description;
+
+            if (project.StartDate == null == false)
+                dbModel.StartDate = project.StartDate;
+
+            if (project.EndDate == null == false)
+                dbModel.EndDate = project.EndDate;
+
+            if (string.IsNullOrWhiteSpace(project.Status) == false)
+                dbModel.Status = project.Status;
+        }
     }
 }

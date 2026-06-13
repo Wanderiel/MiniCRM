@@ -31,5 +31,31 @@ namespace Infrastructure.Repositories
 
             return project?.ToEntity();
         }
+
+        public async Task<bool> UpdateAsync(int id, Project project)
+        {
+            ProjectDbModel? dbModel = await _context.Projects.FindAsync(id);
+
+            if (dbModel == null)
+                return false;
+
+            dbModel.Update(project);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            ProjectDbModel? dbModel = await _context.Projects.FindAsync(id);
+
+            if (dbModel == null)
+                return false;
+
+            _context.Remove(dbModel);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
