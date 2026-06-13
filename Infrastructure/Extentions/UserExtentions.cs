@@ -1,9 +1,9 @@
 ﻿using Domain.Models;
 using Infrastructure.DbModels;
 
-namespace Infrastructure.Extensions
+namespace Infrastructure.Extentions
 {
-    public static class UserExtensions
+    public static class UserExtentions
     {
         public static UserDbModel ToDbModel(this User user) =>
             new UserDbModel

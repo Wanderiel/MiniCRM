@@ -1,9 +1,9 @@
 ﻿using API.Dtos;
 using Domain.Models;
 
-namespace API.Extensions
+namespace API.Extentions
 {
-    public static class UserExtensions
+    public static class UserExtentions
     {
         public static User ToEntity(this CreatedUserDto userDto) =>
             new User()
