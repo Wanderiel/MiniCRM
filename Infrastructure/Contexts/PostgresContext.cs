@@ -11,7 +11,7 @@ namespace Infrastructure.Contexts
         }
 
         public DbSet<UserDbModel> Users { get; set; }
-        //public DbSet<ProjectDbModel> Projects { get; set; }
+        public DbSet<ProjectDbModel> Projects { get; set; }
         //public DbSet<TaskItemDbModel> TaskItems { get; set; }
 
         public override int SaveChanges()
@@ -36,12 +36,16 @@ namespace Infrastructure.Contexts
 
             modelBuilder.Entity<UserDbModel>()
                 .Property(user => user.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("now()");
 
             modelBuilder.Entity<UserDbModel>()
                 .Property(user => user.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasDefaultValueSql("now()")
                 .ValueGeneratedOnAddOrUpdate();
+
+            modelBuilder.Entity<ProjectDbModel>()
+                .Property(project => project.CreatedAt)
+                .HasDefaultValueSql("now()");
 
             //modelBuilder.Entity<ProjectDbModel>()
             //    .HasMany(p => p.Tasks)

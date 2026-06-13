@@ -6,8 +6,7 @@ namespace Infrastructure.DbModels
 {
     public class ProjectDbModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required, StringLength(150)]
         public string Name { get; set; }
@@ -21,6 +20,6 @@ namespace Infrastructure.DbModels
         public string Status { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
-        public List<TaskItemDbModel>? Tasks { get; set; }
+        //public List<TaskItemDbModel>? Tasks { get; set; }
     }
 }
