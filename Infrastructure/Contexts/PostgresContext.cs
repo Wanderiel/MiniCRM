@@ -63,8 +63,7 @@ namespace Infrastructure.Contexts
             var createdEntities = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added)
                 .Select(e => e.Entity)
-                .OfType<UserDbModel>()
-                .ToArray();
+                .OfType<UserDbModel>();
 
             foreach (var entity in createdEntities)
                 entity.CreatedAt = DateTime.UtcNow;
@@ -72,8 +71,7 @@ namespace Infrastructure.Contexts
             var modifiedEntities = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Modified)
                 .Select(e => e.Entity)
-                .OfType<UserDbModel>()
-                .ToArray();
+                .OfType<UserDbModel>();
 
             foreach (var entity in modifiedEntities)
                 entity.UpdatedAt = DateTime.UtcNow;
