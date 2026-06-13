@@ -2,7 +2,7 @@
 using Domain.Models;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;
-using Infrastructure.Extensions;
+using Infrastructure.Extentions;
 using Infrastructure.HashGenerators;
 using Microsoft.EntityFrameworkCore;
 

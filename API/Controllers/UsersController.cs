@@ -1,5 +1,5 @@
 ﻿using API.Dtos;
-using API.Extensions;
+using API.Extentions;
 using Domain.Models;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
