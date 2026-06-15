@@ -18,7 +18,6 @@ namespace Infrastructure.DbModels
         public DateOnly? EndDate { get; set; } = null!;
         [Required, StringLength(50)]
         public string Status { get; set; }
-        [Required]
         public DateTime CreatedAt { get; set; }
         //public List<TaskItemDbModel>? Tasks { get; set; }
     }

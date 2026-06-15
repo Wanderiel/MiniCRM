@@ -34,31 +34,6 @@ namespace Infrastructure.Contexts
                 .HasIndex(user => new { user.Username, user.Email })
                 .IsUnique();
 
-            modelBuilder.Entity<UserDbModel>()
-                .Property(user => user.CreatedAt)
-                .HasDefaultValueSql("now()");
-
-            modelBuilder.Entity<UserDbModel>()
-                .Property(user => user.UpdatedAt)
-                .HasDefaultValueSql("now()")
-                .ValueGeneratedOnAddOrUpdate();
-
-            modelBuilder.Entity<ProjectDbModel>()
-                .Property(project => project.CreatedAt)
-                .HasDefaultValueSql("now()");
-
-            //modelBuilder.Entity<ProjectDbModel>()
-            //    .HasMany(p => p.Tasks)
-            //    .WithOne()
-            //    .HasForeignKey(p => p.ProjectId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<TaskItemDbModel>()
-            //    .HasOne(t => t.Project)
-            //    .WithMany(p => p.Tasks)
-            //    .HasForeignKey(t => t.ProjectId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             base.OnModelCreating(modelBuilder);
         }
 

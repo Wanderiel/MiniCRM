@@ -21,9 +21,7 @@ namespace Infrastructure.DbModels
         public string LastName { get; set; }
         [AllowNull, StringLength(500)]
         public string? AvatarUrl { get; set; } = null!;
-        [Required]
         public DateTime CreatedAt { get; set; }
-        [Required]
         public DateTime UpdatedAt { get; set; }
     }
 }
