@@ -10,7 +10,7 @@ namespace Infrastructure.Extentions
             {
                 Id = user.Id,
                 Username = user.Username,
-                Email = user.Email,
+                Email = user.Email.Value,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 AvatarUrl = user.AvatarUrl,
@@ -23,7 +23,7 @@ namespace Infrastructure.Extentions
             {
                 Id = dbModel.Id,
                 Username = dbModel.Username,
-                Email = dbModel.Email,
+                Email = Email.Init(dbModel.Email),
                 FirstName = dbModel.FirstName,
                 LastName = dbModel.LastName,
                 AvatarUrl = dbModel.AvatarUrl,
@@ -34,8 +34,8 @@ namespace Infrastructure.Extentions
 
         public static void Update(this UserDbModel dbModel, User user)
         {
-            if (string.IsNullOrWhiteSpace(user.Email) == false)
-                dbModel.Email = user.Email;
+            if (string.IsNullOrWhiteSpace(user.Email.Value) == false)
+                dbModel.Email = user.Email.Value;
 
             if (string.IsNullOrWhiteSpace(user.FirstName) == false)
                 dbModel.FirstName = user.FirstName;
