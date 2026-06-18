@@ -23,7 +23,7 @@ namespace Infrastructure.Extentions
             {
                 Id = dbModel.Id,
                 Username = dbModel.Username,
-                Email = Email.Init(dbModel.Email),
+                Email = Email.Create(dbModel.Email),
                 FirstName = dbModel.FirstName,
                 LastName = dbModel.LastName,
                 AvatarUrl = dbModel.AvatarUrl,

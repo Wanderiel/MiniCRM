@@ -9,7 +9,7 @@ namespace API.Extentions
             new User()
             {
                 Username = userDto.Username,
-                Email = Email.Init(userDto.Email),
+                Email = Email.Create(userDto.Email),
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 AvatarUrl = userDto.AvatarUrl,

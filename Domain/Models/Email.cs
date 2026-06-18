@@ -1,26 +1,37 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Domain.Models
 {
     public class Email
     {
-        private Email(string value)
-        {
-            Value = value;
-        }
+        private readonly string _value;
 
-        public string Value { get; private set; }
+        private Email(string value) => _value = value;
 
-        public static Email Init(string value)
+        public string Value => _value;
+
+        public static Email Create(string value)
         {
+            value = value.Trim().ToLowerInvariant();
+
+            if (IsValid(value) == false)
+                throw new ArgumentException("Неверный формат Email адреса");
+
             return new Email(value);
         }
 
-        public bool IsValid()
+        private static bool IsValid(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
             var email = new EmailAddressAttribute();
 
-            return email.IsValid(Value);
+            if (email.IsValid(value) == false)
+                return false;
+
+            return Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
     }
 }
