@@ -45,7 +45,11 @@ namespace Infrastructure.Contexts
                 .OfType<UserDbModel>();
 
             foreach (var entity in createdEntities)
-                entity.CreatedAt = DateTime.UtcNow;
+            {
+                DateTime dateTime = DateTime.UtcNow;
+                entity.CreatedAt = dateTime;
+                entity.UpdatedAt = dateTime;
+            }
 
             var modifiedEntities = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Modified)
