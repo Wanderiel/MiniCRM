@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Domain.Models
 {
-    public class Email
+    public partial class Email
     {
         private readonly string _value;
 
@@ -31,7 +31,10 @@ namespace Domain.Models
             if (email.IsValid(value) == false)
                 return false;
 
-            return Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            return EmailRegex().IsMatch(value);
         }
+
+        [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
+        private static partial Regex EmailRegex();
     }
 }
