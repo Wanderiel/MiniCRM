@@ -5,12 +5,11 @@ namespace Domain.Models.Users
 {
     public class PasswordHash
     {
-        private static int s_minLength = 8;
-        private string _passwordHash;
+        private const int MINLENGTH = 8;
 
-        private PasswordHash(string passwordHash) => _passwordHash = passwordHash;
+        private PasswordHash(string passwordHash) => Value = passwordHash;
 
-        public string Value => _passwordHash;
+        public string Value { get; }
 
         public static PasswordHash Create(string password, string passwordRepeat)
         {
@@ -28,8 +27,8 @@ namespace Domain.Models.Users
             if (string.IsNullOrWhiteSpace(password))
                 throw new InvalidPasswordException($"Пароль не должен быть пустым");
 
-            if (password.Length < s_minLength)
-                throw new InvalidPasswordException($"Пароль должен быть не менее {s_minLength} символов");
+            if (password.Length < MINLENGTH)
+                throw new InvalidPasswordException($"Пароль должен быть не менее {MINLENGTH} символов");
         }
     }
 }
