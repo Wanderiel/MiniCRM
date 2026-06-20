@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Infrastructure.HashGenerators
+namespace Domain.HashGenerators
 {
     public class SHA256HashGenerator
     {

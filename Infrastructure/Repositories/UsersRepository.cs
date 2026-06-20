@@ -1,9 +1,9 @@
-﻿using Domain.Interfaces;
+﻿using Domain.HashGenerators;
+using Domain.Interfaces;
 using Domain.Models.Users;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;
 using Infrastructure.Extentions;
-using Infrastructure.HashGenerators;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
