@@ -1,5 +1,5 @@
 ﻿using Domain.Interfaces;
-using Domain.Models;
+using Domain.Models.Users;
 
 namespace Domain.Services
 {

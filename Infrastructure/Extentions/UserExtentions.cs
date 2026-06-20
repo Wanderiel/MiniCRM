@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Users;
 using Infrastructure.DbModels;
 
 namespace Infrastructure.Extentions

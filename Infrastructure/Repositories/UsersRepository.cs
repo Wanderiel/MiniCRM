@@ -1,5 +1,5 @@
 ﻿using Domain.Interfaces;
-using Domain.Models;
+using Domain.Models.Users;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;
 using Infrastructure.Extentions;

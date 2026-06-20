@@ -1,6 +1,6 @@
 ﻿using API.Dtos;
 using API.Extentions;
-using Domain.Models;
+using Domain.Models.Users;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 

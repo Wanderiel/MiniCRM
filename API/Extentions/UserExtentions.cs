@@ -1,5 +1,6 @@
 ﻿using API.Dtos;
 using Domain.Models;
+using Domain.Models.Users;
 
 namespace API.Extentions
 {
