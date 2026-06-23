@@ -1,9 +1,6 @@
 ﻿using Application.Interfaces;
-using Domain.HashGenerators;
 using Domain.Models.Users;
 using Infrastructure.Contexts;
-using Infrastructure.DbModels;
-using Infrastructure.Extentions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -12,17 +9,11 @@ namespace Infrastructure.Repositories
     {
         private PostgresContext _context;
 
-        public UsersRepository(PostgresContext context)
-        {
-            _context = context;
-        }
+        public UsersRepository(PostgresContext context) => _context = context;
 
-        public async Task InsertAsync(User user, string password)
+        public async Task InsertAsync(User user)
         {
-            UserDbModel dbModel = user.ToDbModel();
-            dbModel.PasswordHash = SHA256HashGenerator.Compute(password);
-
-            await _context.Users.AddAsync(dbModel);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
@@ -31,13 +22,13 @@ namespace Infrastructure.Repositories
 
         public async Task<User?> GetByIdAsync(int id)
         {
-            UserDbModel? user = await _context.Users.FindAsync(id);
+            User? user = await _context.Users.FindAsync(id);
             return user?.ToEntity();
         }
 
         public async Task<User?> UpdateAsync(int id, User user)
         {
-            UserDbModel? dbModel = await _context.Users.FindAsync(id);
+            User? dbModel = await _context.Users.FindAsync(id);
 
             if (dbModel == null)
                 return null;

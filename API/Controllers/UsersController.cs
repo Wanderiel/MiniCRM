@@ -1,7 +1,5 @@
-﻿using Application.Dtos;
-using Application.Extentions;
+﻿using Application.Dtos.Users;
 using Application.Services;
-using Domain.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -23,8 +21,7 @@ namespace API.Controllers
             if (userDto.Password1 == userDto.Password2 == false)
                 return BadRequest("Пароли не совпадают");
 
-            User user = userDto.ToEntity();
-            await _userService.AddAsync(user, userDto.Password1);
+            await _userService.AddAsync(userDto);
 
             return Ok();
         }
@@ -32,7 +29,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            User? user = await _userService.GetAsync(id);
+            UserDto? user = await _userService.GetAsync(id);
 
             if (user == null)
                 return NotFound();
@@ -43,7 +40,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<User> users = await _userService.GetAllAsync();
+            List<UserDto> users = await _userService.GetAllAsync();
 
             if (users == null || users.Count == 0)
                 return NotFound();
@@ -54,7 +51,7 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
         {
-            User? user = await _userService.UpdateAsync(id, userDto.ToEntity());
+            UserDto? user = await _userService.UpdateAsync(id, userDto);
 
             if (user == null)
                 return NotFound();

@@ -1,4 +1,5 @@
-﻿using Infrastructure.DbModels;
+﻿using Domain.Models;
+using Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts
@@ -10,9 +11,8 @@ namespace Infrastructure.Contexts
             Database.EnsureCreated();
         }
 
-        public DbSet<UserDbModel> Users { get; set; }
-        public DbSet<ProjectDbModel> Projects { get; set; }
-        //public DbSet<TaskItemDbModel> TaskItems { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public override int SaveChanges()
         {
@@ -30,7 +30,7 @@ namespace Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserDbModel>()
+            modelBuilder.Entity<User>()
                 .HasIndex(user => new { user.Username, user.Email })
                 .IsUnique();
 
@@ -42,7 +42,7 @@ namespace Infrastructure.Contexts
             var createdEntities = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added)
                 .Select(e => e.Entity)
-                .OfType<UserDbModel>();
+                .OfType<User>();
 
             foreach (var entity in createdEntities)
             {
@@ -54,7 +54,7 @@ namespace Infrastructure.Contexts
             var modifiedEntities = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Modified)
                 .Select(e => e.Entity)
-                .OfType<UserDbModel>();
+                .OfType<User>();
 
             foreach (var entity in modifiedEntities)
                 entity.UpdatedAt = DateTime.UtcNow;
