@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace API.Dtos
+namespace Application.Dtos
 {
     public class UpdateUserDto
     {

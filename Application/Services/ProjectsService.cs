@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class ProjectsService
     {

@@ -1,5 +1,5 @@
-﻿using Domain.HashGenerators;
-using Domain.Interfaces;
+﻿using Application.Interfaces;
+using Domain.HashGenerators;
 using Domain.Models.Users;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;

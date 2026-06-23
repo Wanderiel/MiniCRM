@@ -1,7 +1,7 @@
-﻿using API.Dtos;
-using API.Extentions;
+﻿using Application.Dtos;
+using Application.Extentions;
+using Application.Services;
 using Domain.Models;
-using Domain.Services;
 using Infrastructure.Extentions;
 using Microsoft.AspNetCore.Mvc;
 

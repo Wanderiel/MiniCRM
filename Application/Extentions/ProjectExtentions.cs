@@ -1,7 +1,7 @@
-﻿using API.Dtos;
+﻿using Application.Dtos;
 using Domain.Models;
 
-namespace API.Extentions
+namespace Application.Extentions
 {
     public static class ProjectExtentions
     {

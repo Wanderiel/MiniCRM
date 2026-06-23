@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models;
 using Infrastructure.Contexts;
 using Infrastructure.DbModels;

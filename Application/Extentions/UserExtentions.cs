@@ -1,8 +1,8 @@
-﻿using API.Dtos;
+﻿using Application.Dtos;
 using Domain.Models;
 using Domain.Models.Users;
 
-namespace API.Extentions
+namespace Application.Extentions
 {
     public static class UserExtentions
     {
