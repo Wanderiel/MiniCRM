@@ -1,4 +1,7 @@
-﻿using Application.Interfaces;
+﻿using Application.Dtos.Users;
+using Application.Extentions;
+using Application.Interfaces;
+using Domain.Models;
 using Domain.Models.Users;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +10,7 @@ namespace Infrastructure.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
-        private PostgresContext _context;
+        private readonly PostgresContext _context;
 
         public UsersRepository(PostgresContext context) => _context = context;
 
@@ -17,36 +20,41 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAllAsync() =>
-            await _context.Users.Select(user => user.ToEntity()).ToListAsync();
+        public async Task<List<UserDto>> GetAllAsync() =>
+            await _context.Users.Select(user => user.ToDto()).ToListAsync();
 
-        public async Task<User?> GetByIdAsync(int id)
+        public async Task<UserDto?> GetByIdAsync(int id)
         {
             User? user = await _context.Users.FindAsync(id);
-            return user?.ToEntity();
+            return user?.ToDto();
         }
 
-        public async Task<User?> UpdateAsync(int id, User user)
+        public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
         {
-            User? dbModel = await _context.Users.FindAsync(id);
+            User? user = await _context.Users.FindAsync(id);
 
-            if (dbModel == null)
-                return null;
+            if (user == null)
+                return false;
 
-            dbModel.Update(user);
+            Email email = Email.Create(updateUser.Email);
+            FullName fullName = FullName.Create(updateUser.FirstName, updateUser.LastName);
+
+            user.UpdateEmail(email);
+            user.UpdateFullName(fullName);
+            user.UpdateAvatatUrl(updateUser.AvatarUrl);
             _context.SaveChanges();
 
-            return dbModel.ToEntity();
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            UserDbModel? dbModel = await _context.Users.FindAsync(id);
+            User? user = await _context.Users.FindAsync(id);
 
-            if (dbModel == null)
+            if (user == null)
                 return false;
 
-            _context.Users.Remove(dbModel);
+            _context.Users.Remove(user);
             _context.SaveChanges();
 
             return true;

@@ -1,13 +1,14 @@
-﻿using Domain.Models.Users;
+﻿using Application.Dtos.Users;
+using Domain.Models.Users;
 
 namespace Application.Interfaces
 {
     public interface IUsersRepository
     {
         Task InsertAsync(User user);
-        Task<User?> GetByIdAsync(int id);
-        Task<List<User>> GetAllAsync();
-        Task<User?> UpdateAsync(int id, User user);
+        Task<UserDto?> GetByIdAsync(int id);
+        Task<List<UserDto>> GetAllAsync();
+        Task<bool> UpdateAsync(int id, UpdateUserDto user);
         Task<bool> DeleteAsync(int id);
     }
 }

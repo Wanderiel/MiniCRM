@@ -26,17 +26,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            UserDto? user = await _userService.GetAsync(id);
-
-            if (user == null)
-                return NotFound();
-
-            return Ok(user);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -48,15 +37,26 @@ namespace API.Controllers
             return Ok(users);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            UserDto? user = await _userService.UpdateAsync(id, userDto);
+            UserDto? user = await _userService.GetAsync(id);
 
             if (user == null)
                 return NotFound();
 
             return Ok(user);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
+        {
+            bool result = await _userService.UpdateAsync(id, userDto);
+
+            if (result == false)
+                return BadRequest();
+
+            return Ok();
         }
 
         [HttpDelete]
