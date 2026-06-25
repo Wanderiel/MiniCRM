@@ -2,7 +2,6 @@
 using Application.Extentions;
 using Application.Services;
 using Domain.Models;
-using Infrastructure.Extentions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
