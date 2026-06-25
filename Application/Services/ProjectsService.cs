@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Dtos.Projects;
+using Application.Interfaces;
 using Domain.Models;
 
 namespace Application.Services
@@ -15,10 +16,10 @@ namespace Application.Services
         public async Task AddAsync(Project project) =>
             await _repository.InsertAsync(project);
 
-        public async Task<List<Project>> GetAllAsync() =>
+        public async Task<List<CreatedProjectDto>> GetAllAsync() =>
             await _repository.GetAllAsync();
 
-        public async Task<Project?> GetAsync(int id) =>
+        public async Task<CreatedProjectDto?> GetAsync(int id) =>
             await _repository.GetByIdAsync(id);
 
         public async Task<bool> UpdateAsync(int id, Project project) =>

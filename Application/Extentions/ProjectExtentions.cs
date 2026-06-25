@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Dtos.Projects;
 using Domain.Models;
 
 namespace Application.Extentions
@@ -14,5 +14,16 @@ namespace Application.Extentions
                 EndDate = projectDto.EndDate,
                 Status = projectDto.Status,
             };
+
+        public static CreatedProjectDto ToDto(this Project project) =>
+            new CreatedProjectDto()
+            {
+                Name = project.Name,
+                Description = project.Description,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate,
+                Status = project.Status,
+            };
+
     }
 }

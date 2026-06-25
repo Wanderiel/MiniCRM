@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Dtos.Projects;
+using Application.Extentions;
+using Application.Interfaces;
 using Domain.Models;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -16,28 +18,28 @@ namespace Infrastructure.Repositories
 
         public async Task InsertAsync(Project project)
         {
-            await _context.AddAsync(project.ToDbModel());
+            await _context.AddAsync(project);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Project>> GetAllAsync() =>
-            await _context.Projects.Select(project => project.ToEntity()).ToListAsync();
+        public async Task<List<CreatedProjectDto>> GetAllAsync() =>
+            await _context.Projects.Select(project => project.ToDto()).ToListAsync();
 
-        public async Task<Project?> GetByIdAsync(int id)
+        public async Task<CreatedProjectDto?> GetByIdAsync(int id)
         {
-            ProjectDbModel? project = await _context.Projects.FirstOrDefaultAsync(project => project.Id == id);
+            Project? project = await _context.Projects.FirstOrDefaultAsync(project => project.Id == id);
 
-            return project?.ToEntity();
+            return project?.ToDto();
         }
 
-        public async Task<bool> UpdateAsync(int id, Project project)
+        public async Task<bool> UpdateAsync(int id, Project updateProject)
         {
-            ProjectDbModel? dbModel = await _context.Projects.FindAsync(id);
+            Project? project = await _context.Projects.FindAsync(id);
 
-            if (dbModel == null)
+            if (project == null)
                 return false;
 
-            dbModel.Update(project);
+            //project.Update(updateProject);
             await _context.SaveChangesAsync();
 
             return true;
@@ -45,12 +47,12 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            ProjectDbModel? dbModel = await _context.Projects.FindAsync(id);
+            Project? project = await _context.Projects.FindAsync(id);
 
-            if (dbModel == null)
+            if (project == null)
                 return false;
 
-            _context.Remove(dbModel);
+            _context.Remove(project);
             await _context.SaveChangesAsync();
 
             return true;

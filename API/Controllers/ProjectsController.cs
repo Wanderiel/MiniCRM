@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Dtos.Projects;
 using Application.Extentions;
 using Application.Services;
 using Domain.Models;
@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int id)
         {
-            Project? project = await _projectsService.GetAsync(id);
+            CreatedProjectDto? project = await _projectsService.GetAsync(id);
 
             if (project == null)
                 return NotFound();
@@ -41,7 +41,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<Project> projects = await _projectsService.GetAllAsync();
+            List<CreatedProjectDto> projects = await _projectsService.GetAllAsync();
 
             if (projects == null || projects.Count == 0)
                 return NotFound();
