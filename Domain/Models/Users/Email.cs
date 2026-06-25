@@ -5,11 +5,11 @@ namespace Domain.Models
 {
     public partial class Email
     {
-        private readonly string _value;
+        private Email() { }
 
-        private Email(string value) => _value = value;
+        private Email(string value) => Value = value;
 
-        public string Value => _value;
+        public string Value {  get; private set; }
 
         public static Email Create(string value)
         {

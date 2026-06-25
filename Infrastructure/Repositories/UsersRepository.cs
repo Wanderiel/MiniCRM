@@ -1,7 +1,4 @@
-﻿using Application.Dtos.Users;
-using Application.Extentions;
-using Application.Interfaces;
-using Domain.Models;
+﻿using Application.Interfaces;
 using Domain.Models.Users;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -20,31 +17,13 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<UserDto>> GetAllAsync() =>
-            await _context.Users.Select(user => user.ToDto()).ToListAsync();
+        public async Task<List<User>> GetAllAsync() =>
+            await _context.Users.ToListAsync();
 
-        public async Task<UserDto?> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             User? user = await _context.Users.FindAsync(id);
-            return user?.ToDto();
-        }
-
-        public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
-        {
-            User? user = await _context.Users.FindAsync(id);
-
-            if (user == null)
-                return false;
-
-            Email email = Email.Create(updateUser.Email);
-            FullName fullName = FullName.Create(updateUser.FirstName, updateUser.LastName);
-
-            user.UpdateEmail(email);
-            user.UpdateFullName(fullName);
-            user.UpdateAvatatUrl(updateUser.AvatarUrl);
-            _context.SaveChanges();
-
-            return true;
+            return user;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -59,5 +38,8 @@ namespace Infrastructure.Repositories
 
             return true;
         }
+
+        public async Task SaveChangesAsync() =>
+            await _context.SaveChangesAsync();
     }
 }

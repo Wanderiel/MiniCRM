@@ -2,17 +2,16 @@
 {
     public class FullName
     {
-        private readonly string _firstName;
-        private readonly string _lastName;
+        private FullName() { }
 
         private FullName(string firstName, string lastName)
         {
-            _firstName = firstName;
-            _lastName = lastName;
+            FirstName = firstName;
+            LastName = lastName;
         }
 
-        public string FirstName => _firstName;
-        public string LastName => _lastName;
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
 
         public static FullName Create(string firstName, string lastName)
         {

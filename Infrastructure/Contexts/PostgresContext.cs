@@ -30,9 +30,27 @@ namespace Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasIndex(user => new { user.Username, user.Email })
-                .IsUnique();
+            modelBuilder.Entity<User>(bilder =>
+            {
+                bilder.Property(u => u.Email)
+                    .HasConversion(
+                        email => email.Value,
+                        email => Email.Create(email));
+
+                bilder.OwnsOne(
+                    user => user.FullName,
+                    fName =>
+                    {
+                        fName.Property(p => p.FirstName).HasColumnName("FirstName");
+                        fName.Property(p => p.LastName).HasColumnName("LastName");
+                    });
+
+                bilder.HasIndex(u => u.Email)
+                    .IsUnique();
+
+                bilder.HasIndex(user => user.Username)
+                    .IsUnique();
+            });
 
             base.OnModelCreating(modelBuilder);
         }

@@ -5,6 +5,8 @@ namespace Domain.Models.Users
 {
     public class User
     {
+        private User() { }
+
         public User(string userName, Email email, FullName fullName, string? avatarUrl, string passwordHash)
         {
             Username = userName;
@@ -41,6 +43,8 @@ namespace Domain.Models.Users
         {
             if (fullName is null)
                 throw new ArgumentNullException(nameof(fullName));
+
+            FullName = fullName;
         }
 
         public void UpdateAvatatUrl(string value)
