@@ -39,25 +39,11 @@ namespace Infrastructure.Contexts
 
         private void SetTimestampsForUsers()
         {
-            var createdEntities = ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added)
-                .Select(e => e.Entity)
-                .OfType<User>();
+            var modifiedEntities = ChangeTracker.Entries<User>()
+                .Where(e => e.State == EntityState.Modified);
 
-            foreach (var entity in createdEntities)
-            {
-                DateTime dateTime = DateTime.UtcNow;
-                entity.CreatedAt = dateTime;
-                entity.UpdatedAt = dateTime;
-            }
-
-            var modifiedEntities = ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Modified)
-                .Select(e => e.Entity)
-                .OfType<User>();
-
-            foreach (var entity in modifiedEntities)
-                entity.UpdatedAt = DateTime.UtcNow;
+            foreach (var entry in modifiedEntities)
+                entry.Property(e => e.UpdatedAt).CurrentValue = DateTime.UtcNow;
         }
     }
 }
