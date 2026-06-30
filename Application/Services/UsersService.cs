@@ -19,7 +19,7 @@ namespace Application.Services
             if (string.IsNullOrWhiteSpace(userDto.Username))
                 throw new ArgumentException($"Имя пользователя не может быть пустым.");
 
-            User? findUser = await _repository.GetByUsernameAsymc(userDto.Username);
+            User? findUser = await _repository.GetByUsernameAsync(userDto.Username);
 
             if (findUser is null == false)
                 throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
