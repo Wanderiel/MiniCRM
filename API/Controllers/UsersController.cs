@@ -8,7 +8,7 @@ namespace API.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private UsersService _userService;
+        private readonly UsersService _userService;
 
         public UsersController(UsersService userService)
         {
@@ -16,29 +16,19 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatedUserDto userDto)
+        public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto)
         {
-            if (userDto.Password1 == userDto.Password2 == false)
-                return BadRequest("Пароли не совпадают");
-
-            await _userService.AddAsync(userDto);
+            await _userService.Register(userDto);
 
             return Ok();
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            List<UserDto> users = await _userService.GetAllAsync();
-
-            if (users == null || users.Count == 0)
-                return NotFound();
-
-            return Ok(users);
-        }
+        public async Task<ActionResult<List<UserDto>>> GetAll() =>
+            await _userService.GetAllAsync() ?? new List<UserDto>();
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<UserDto>> Get(int id)
         {
             UserDto? user = await _userService.GetAsync(id);
 

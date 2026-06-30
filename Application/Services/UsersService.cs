@@ -1,7 +1,6 @@
 ﻿using Application.Dtos.Users;
 using Application.Extentions;
 using Application.Interfaces;
-using Domain.Models;
 using Domain.Models.Users;
 
 namespace Application.Services
@@ -15,9 +14,25 @@ namespace Application.Services
             _repository = repository;
         }
 
-        public async Task AddAsync(CreatedUserDto userDto)
+        public async Task Register(CreatedUserDto userDto)
         {
-            User user = userDto.ToEntity();
+            if (string.IsNullOrWhiteSpace(userDto.Username))
+                throw new ArgumentException($"Имя пользователя не может быть пустым.");
+
+            User? findUser = await _repository.GetByUsernameAsymc(userDto.Username);
+
+            if (findUser is null == false)
+                throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
+
+            Email email = Email.Create(userDto.Email);
+            findUser = await _repository.GetByEmailAsync(email);
+
+            if (findUser is null == false)
+                throw new ArithmeticException("Email уже используется, укажите другой.");
+
+            FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
+            string passwordHash = PasswordHasher.Hash(userDto.Password1, userDto.Password2);
+            User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
             await _repository.InsertAsync(user);
         }
 
@@ -34,16 +49,21 @@ namespace Application.Services
             if (user == null)
                 return false;
 
-            UpdateEmail(user, updateUser.Email);
-            UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
-            user.UpdateAvatatUrl(updateUser.AvatarUrl);
-            await _repository.SaveChangesAsync();
+            await UpdateUser(user, updateUser);
 
             return true;
         }
 
         public async Task<bool> DeleteAsync(int id) =>
             await _repository.DeleteAsync(id);
+
+        private async Task UpdateUser(User user, UpdateUserDto updateUser)
+        {
+            UpdateEmail(user, updateUser.Email);
+            UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
+            user.UpdateAvatatUrl(updateUser.AvatarUrl);
+            await _repository.SaveChangesAsync();
+        }
 
         private void UpdateEmail(User user, string newEmail)
         {

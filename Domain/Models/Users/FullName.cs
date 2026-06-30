@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Users
 {
-    public class FullName
+    public record FullName
     {
         private FullName() { }
 

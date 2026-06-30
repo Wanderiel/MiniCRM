@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Domain.Models
+namespace Domain.Models.Users
 {
-    public partial class Email
+    public record Email
     {
         private Email() { }
 
@@ -31,10 +31,8 @@ namespace Domain.Models
             if (email.IsValid(value) == false)
                 return false;
 
-            return EmailRegex().IsMatch(value);
+            return Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            ;
         }
-
-        [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
-        private static partial Regex EmailRegex();
     }
 }

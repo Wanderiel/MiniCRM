@@ -3,23 +3,18 @@ using Domain.Models.Exceptions;
 
 namespace Domain.Models.Users
 {
-    public class PasswordHash
+    public class PasswordHasher
     {
         private const int MINLENGTH = 8;
 
-        private PasswordHash(string passwordHash) => Value = passwordHash;
-
-        public string Value { get; }
-
-        public static PasswordHash Create(string password, string passwordRepeat)
+        public static string Hash(string password, string passwordRepeat)
         {
             if (password == passwordRepeat == false)
                 throw new InvalidPasswordException("Пароли не совпадают");
 
             Validate(password);
-            string passwordHash = SHA256HashGenerator.Compute(password);
 
-            return new PasswordHash(passwordHash);
+            return SHA256HashGenerator.Compute(password);
         }
 
         private static void Validate(string password)
