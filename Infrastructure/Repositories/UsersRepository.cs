@@ -23,11 +23,11 @@ namespace Infrastructure.Repositories
         public async Task<User?> GetByIdAsync(int id) =>
             await _context.Users.FindAsync(id);
 
-        public async Task<User?> GetByUsernameAsync(string username) =>
-            await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        public async Task<bool> HasUserByUsernameAsync(string username) =>
+            await _context.Users.AnyAsync(u => u.Username == username);
 
-        public async Task<User?> GetByEmailAsync(Email email) =>
-            await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        public async Task<bool> HasUserByEmailAsync(Email email) =>
+            await _context.Users.AnyAsync(u => u.Email == email);
 
         public async Task<bool> DeleteAsync(int id)
         {

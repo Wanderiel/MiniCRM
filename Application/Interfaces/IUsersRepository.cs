@@ -7,8 +7,8 @@ namespace Application.Interfaces
         Task InsertAsync(User user);
         Task<List<User>> GetAllAsync();
         Task<User?> GetByIdAsync(int id);
-        Task<User?> GetByUsernameAsync(string username);
-        Task<User?> GetByEmailAsync(Email email);
+        Task<bool> HasUserByUsernameAsync(string username);
+        Task<bool> HasUserByEmailAsync(Email email);
         Task SaveChangesAsync();
         Task<bool> DeleteAsync(int id);
     }

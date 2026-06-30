@@ -9,25 +9,19 @@ namespace Application.Services
     {
         private readonly IUsersRepository _repository;
 
-        public UsersService(IUsersRepository repository)
-        {
-            _repository = repository;
-        }
+        public UsersService(IUsersRepository repository) => _repository = repository;
 
         public async Task Register(CreatedUserDto userDto)
         {
             if (string.IsNullOrWhiteSpace(userDto.Username))
                 throw new ArgumentException($"Имя пользователя не может быть пустым.");
 
-            User? findUser = await _repository.GetByUsernameAsync(userDto.Username);
-
-            if (findUser is null == false)
+            if (await _repository.HasUserByUsernameAsync(userDto.Username))
                 throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
 
             Email email = Email.Create(userDto.Email);
-            findUser = await _repository.GetByEmailAsync(email);
 
-            if (findUser is null == false)
+            if (await _repository.HasUserByEmailAsync(email))
                 throw new ArithmeticException("Email уже используется, укажите другой.");
 
             FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
