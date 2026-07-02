@@ -3,94 +3,93 @@ using Application.Extentions;
 using Application.Interfaces;
 using Domain.Models.Users;
 
-namespace Application.Services
+namespace Application.Services;
+
+public class UsersService
 {
-    public class UsersService
+    private readonly IUsersRepository _repository;
+
+    public UsersService(IUsersRepository repository) => _repository = repository;
+
+    public async Task Register(CreatedUserDto userDto)
     {
-        private readonly IUsersRepository _repository;
+        if (string.IsNullOrWhiteSpace(userDto.Username))
+            throw new ArgumentException($"Имя пользователя не может быть пустым.");
 
-        public UsersService(IUsersRepository repository) => _repository = repository;
+        if (await _repository.HasUserByUsernameAsync(userDto.Username))
+            throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
 
-        public async Task Register(CreatedUserDto userDto)
-        {
-            if (string.IsNullOrWhiteSpace(userDto.Username))
-                throw new ArgumentException($"Имя пользователя не может быть пустым.");
+        Email email = Email.Create(userDto.Email);
 
-            if (await _repository.HasUserByUsernameAsync(userDto.Username))
-                throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
+        if (await _repository.HasUserByEmailAsync(email))
+            throw new ArithmeticException("Email уже используется, укажите другой.");
 
-            Email email = Email.Create(userDto.Email);
+        FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
+        string passwordHash = PasswordHasher.Hash(userDto.Password1, userDto.Password2);
+        User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
+        await _repository.InsertAsync(user);
+    }
 
-            if (await _repository.HasUserByEmailAsync(email))
-                throw new ArithmeticException("Email уже используется, укажите другой.");
+    public async Task<bool> Login(LoginUser loginUser)
+    {
+        if (string.IsNullOrWhiteSpace(loginUser.Login))
+            return false;
 
-            FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
-            string passwordHash = PasswordHasher.Hash(userDto.Password1, userDto.Password2);
-            User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
-            await _repository.InsertAsync(user);
-        }
+        User? user = await _repository.GetByUsernameAsync(loginUser.Login);
 
-        public async Task<bool> Login(LoginUser loginUser)
-        {
-            if (string.IsNullOrWhiteSpace(loginUser.Login))
-                return false;
+        if (user == null)
+            return false;
 
-            User? user = await _repository.GetByUsernameAsync(loginUser.Login);
+        return PasswordHasher.Compare(loginUser.Password, user.PasswordHash);
+    }
 
-            if (user == null)
-                return false;
+    public async Task<List<UserDto>> GetAllAsync() =>
+        (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
 
-            return PasswordHasher.Compare(loginUser.Password, user.PasswordHash);
-        }
+    public async Task<UserDto?> GetAsync(int id) =>
+        (await _repository.GetByIdAsync(id))?.ToDto();
 
-        public async Task<List<UserDto>> GetAllAsync() =>
-            (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
+    public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
+    {
+        User? user = await _repository.GetByIdAsync(id);
 
-        public async Task<UserDto?> GetAsync(int id) =>
-            (await _repository.GetByIdAsync(id))?.ToDto();
+        if (user == null)
+            return false;
 
-        public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
-        {
-            User? user = await _repository.GetByIdAsync(id);
+        await UpdateUser(user, updateUser);
 
-            if (user == null)
-                return false;
+        return true;
+    }
 
-            await UpdateUser(user, updateUser);
+    public async Task<bool> DeleteAsync(int id) =>
+        await _repository.DeleteAsync(id);
 
-            return true;
-        }
+    private async Task UpdateUser(User user, UpdateUserDto updateUser)
+    {
+        UpdateEmail(user, updateUser.Email);
+        UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
+        user.UpdateAvatatUrl(updateUser.AvatarUrl);
+        await _repository.SaveChangesAsync();
+    }
 
-        public async Task<bool> DeleteAsync(int id) =>
-            await _repository.DeleteAsync(id);
+    private void UpdateEmail(User user, string newEmail)
+    {
+        if (string.IsNullOrWhiteSpace(newEmail))
+            return;
 
-        private async Task UpdateUser(User user, UpdateUserDto updateUser)
-        {
-            UpdateEmail(user, updateUser.Email);
-            UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
-            user.UpdateAvatatUrl(updateUser.AvatarUrl);
-            await _repository.SaveChangesAsync();
-        }
+        Email email = Email.Create(newEmail);
+        user.UpdateEmail(email);
+    }
 
-        private void UpdateEmail(User user, string newEmail)
-        {
-            if (string.IsNullOrWhiteSpace(newEmail))
-                return;
+    private void UpdateFullName(User user, string newFirstName, string newLastName)
+    {
+        if (string.IsNullOrWhiteSpace(newFirstName) && string.IsNullOrWhiteSpace(newLastName))
+            return;
 
-            Email email = Email.Create(newEmail);
-            user.UpdateEmail(email);
-        }
+        string firstname = string.IsNullOrWhiteSpace(newFirstName) ? user.FullName.FirstName : newFirstName;
+        string lastName = string.IsNullOrWhiteSpace(newLastName) ? user.FullName.LastName : newLastName;
 
-        private void UpdateFullName(User user, string newFirstName, string newLastName)
-        {
-            if (string.IsNullOrWhiteSpace(newFirstName) && string.IsNullOrWhiteSpace(newLastName))
-                return;
-
-            string firstname = string.IsNullOrWhiteSpace(newFirstName) ? user.FullName.FirstName : newFirstName;
-            string lastName = string.IsNullOrWhiteSpace(newLastName) ? user.FullName.LastName : newLastName;
-
-            FullName fullName = FullName.Create(firstname, lastName);
-            user.UpdateFullName(fullName);
-        }
+        FullName fullName = FullName.Create(firstname, lastName);
+        user.UpdateFullName(fullName);
     }
 }

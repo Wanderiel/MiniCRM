@@ -2,71 +2,70 @@
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class UsersController : Controller
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UsersController : Controller
+    private readonly UsersService _userService;
+
+    public UsersController(UsersService userService)
     {
-        private readonly UsersService _userService;
+        _userService = userService;
+    }
 
-        public UsersController(UsersService userService)
-        {
-            _userService = userService;
-        }
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto)
+    {
+        await _userService.Register(userDto);
 
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto)
-        {
-            await _userService.Register(userDto);
+        return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUser loginUser)
+    {
+        if (await _userService.Login(loginUser) == false)
+            return BadRequest("Неверное имя пользователя или пароль.");
 
-        [HttpPost("{login}")]
-        public async Task<IActionResult> Login([FromBody] LoginUser loginUser)
-        {
-            if (await _userService.Login(loginUser) == false)
-                return BadRequest("Неверное имя пользователя или пароль.");
+        return Ok("Добро пожаловать!");
+    }
 
-            return Ok("Добро пожаловать!");
-        }
+    [HttpGet]
+    public async Task<ActionResult<List<UserDto>>> GetAll() =>
+        await _userService.GetAllAsync() ?? new List<UserDto>();
 
-        [HttpGet]
-        public async Task<ActionResult<List<UserDto>>> GetAll() =>
-            await _userService.GetAllAsync() ?? new List<UserDto>();
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserDto>> Get(int id)
+    {
+        UserDto? user = await _userService.GetAsync(id);
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> Get(int id)
-        {
-            UserDto? user = await _userService.GetAsync(id);
+        if (user == null)
+            return NotFound();
 
-            if (user == null)
-                return NotFound();
+        return Ok(user);
+    }
 
-            return Ok(user);
-        }
+    [HttpPut]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
+    {
+        bool result = await _userService.UpdateAsync(id, userDto);
 
-        [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
-        {
-            bool result = await _userService.UpdateAsync(id, userDto);
+        if (result == false)
+            return BadRequest();
 
-            if (result == false)
-                return BadRequest();
+        return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id)
+    {
+        bool result = await _userService.DeleteAsync(id);
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            bool result = await _userService.DeleteAsync(id);
+        if (result == false)
+            return NotFound();
 
-            if (result == false)
-                return NotFound();
-
-            return Ok();
-        }
+        return Ok();
     }
 }

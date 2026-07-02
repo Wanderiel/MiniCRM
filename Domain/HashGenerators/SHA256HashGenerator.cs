@@ -1,21 +1,20 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Domain.HashGenerators
+namespace Domain.HashGenerators;
+
+public class SHA256HashGenerator
 {
-    public class SHA256HashGenerator
+    private static readonly SHA256 s_sHA256 = SHA256.Create();
+
+    public static string Compute(string toHash)
     {
-        private static readonly SHA256 s_sHA256 = SHA256.Create();
+        if (string.IsNullOrEmpty(toHash))
+            throw new ArgumentNullException(nameof(toHash));
 
-        public static string Compute(string toHash)
-        {
-            if (string.IsNullOrEmpty(toHash))
-                throw new ArgumentNullException(nameof(toHash));
+        byte[] toHashBytes = Encoding.UTF8.GetBytes(toHash);
+        byte[] hashValue = s_sHA256.ComputeHash(toHashBytes);
 
-            byte[] toHashBytes = Encoding.UTF8.GetBytes(toHash);
-            byte[] hashValue = s_sHA256.ComputeHash(toHashBytes);
-
-            return Convert.ToBase64String(hashValue);
-        }
+        return Convert.ToBase64String(hashValue);
     }
 }

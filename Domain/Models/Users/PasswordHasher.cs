@@ -1,32 +1,31 @@
 ﻿using Domain.HashGenerators;
 using Domain.Models.Exceptions;
 
-namespace Domain.Models.Users
+namespace Domain.Models.Users;
+
+public class PasswordHasher
 {
-    public class PasswordHasher
+    private const int MINLENGTH = 8;
+
+    public static bool Compare(string password, string hash) =>
+        SHA256HashGenerator.Compute(password) == hash;
+
+    public static string Hash(string password, string passwordRepeat)
     {
-        private const int MINLENGTH = 8;
+        if (password == passwordRepeat == false)
+            throw new InvalidPasswordException("Пароли не совпадают");
 
-        public static bool Compare(string password, string hash) =>
-            SHA256HashGenerator.Compute(password) == hash;
+        Validate(password);
 
-        public static string Hash(string password, string passwordRepeat)
-        {
-            if (password == passwordRepeat == false)
-                throw new InvalidPasswordException("Пароли не совпадают");
+        return SHA256HashGenerator.Compute(password);
+    }
 
-            Validate(password);
+    private static void Validate(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+            throw new InvalidPasswordException($"Пароль не должен быть пустым");
 
-            return SHA256HashGenerator.Compute(password);
-        }
-
-        private static void Validate(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-                throw new InvalidPasswordException($"Пароль не должен быть пустым");
-
-            if (password.Length < MINLENGTH)
-                throw new InvalidPasswordException($"Пароль должен быть не менее {MINLENGTH} символов");
-        }
+        if (password.Length < MINLENGTH)
+            throw new InvalidPasswordException($"Пароль должен быть не менее {MINLENGTH} символов");
     }
 }
