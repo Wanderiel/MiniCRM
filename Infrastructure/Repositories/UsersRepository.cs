@@ -9,7 +9,8 @@ public class UsersRepository : IUsersRepository
 {
     private readonly PostgresContext _context;
 
-    public UsersRepository(PostgresContext context) => _context = context;
+    public UsersRepository(PostgresContext context) =>
+        _context = context;
 
     public async Task InsertAsync(User user)
     {

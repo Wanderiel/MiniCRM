@@ -9,7 +9,8 @@ public class UsersService
 {
     private readonly IUsersRepository _repository;
 
-    public UsersService(IUsersRepository repository) => _repository = repository;
+    public UsersService(IUsersRepository repository) =>
+        _repository = repository;
 
     public async Task Register(CreatedUserDto userDto)
     {
@@ -72,7 +73,7 @@ public class UsersService
         await _repository.SaveChangesAsync();
     }
 
-    private void UpdateEmail(User user, string newEmail)
+    private void UpdateEmail(User user, string? newEmail)
     {
         if (string.IsNullOrWhiteSpace(newEmail))
             return;
@@ -81,7 +82,7 @@ public class UsersService
         user.UpdateEmail(email);
     }
 
-    private void UpdateFullName(User user, string newFirstName, string newLastName)
+    private void UpdateFullName(User user, string? newFirstName, string? newLastName)
     {
         if (string.IsNullOrWhiteSpace(newFirstName) && string.IsNullOrWhiteSpace(newLastName))
             return;

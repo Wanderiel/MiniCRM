@@ -33,21 +33,19 @@ public class User
 
     public void UpdateEmail(Email email)
     {
-        if (email is null)
-            throw new ArgumentNullException(nameof(email));
+        ArgumentNullException.ThrowIfNull(email);
 
         Email = email;
     }
 
     public void UpdateFullName(FullName fullName)
     {
-        if (fullName is null)
-            throw new ArgumentNullException(nameof(fullName));
+        ArgumentNullException.ThrowIfNull(fullName);
 
         FullName = fullName;
     }
 
-    public void UpdateAvatatUrl(string value)
+    public void UpdateAvatatUrl(string? value)
     {
         if (string.IsNullOrWhiteSpace(value) == false)
             AvatarUrl = value;

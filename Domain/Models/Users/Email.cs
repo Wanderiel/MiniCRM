@@ -3,11 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace Domain.Models.Users;
 
-public record Email
+public partial record Email
 {
     private Email() { }
 
-    private Email(string value) => Value = value;
+    private Email(string value) =>
+        Value = value;
 
     public string Value { get; private set; }
 
@@ -31,6 +32,9 @@ public record Email
         if (email.IsValid(value) == false)
             return false;
 
-        return Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+        return MyRegex().IsMatch(value);
     }
+
+    [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
+    private static partial Regex MyRegex();
 }
