@@ -11,9 +11,9 @@ namespace Domain.Models.Users
 
         public string Value {  get; private set; }
 
-        public static Email Create(string value)
+        public static Email Create(string? value)
         {
-            value = value.Trim().ToLowerInvariant();
+            value = value?.Trim().ToLowerInvariant();
 
             if (IsValid(value) == false)
                 throw new ArgumentException("Неверный формат Email адреса");
@@ -21,7 +21,7 @@ namespace Domain.Models.Users
             return new Email(value);
         }
 
-        private static bool IsValid(string value)
+        private static bool IsValid(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return false;
