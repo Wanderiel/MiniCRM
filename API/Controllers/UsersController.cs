@@ -24,7 +24,7 @@ public class UsersController : Controller
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginUser loginUser)
+    public async Task<IActionResult> Login([FromBody] LoginUserDto loginUser)
     {
         if (await _userService.Login(loginUser) == false)
             return BadRequest("Неверное имя пользователя или пароль.");

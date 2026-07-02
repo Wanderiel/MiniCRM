@@ -30,7 +30,7 @@ public class UsersService
         await _repository.InsertAsync(user);
     }
 
-    public async Task<bool> Login(LoginUser loginUser)
+    public async Task<bool> Login(LoginUserDto loginUser)
     {
         if (string.IsNullOrWhiteSpace(loginUser.Login))
             return false;
