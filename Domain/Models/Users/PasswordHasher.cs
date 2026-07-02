@@ -7,6 +7,9 @@ namespace Domain.Models.Users
     {
         private const int MINLENGTH = 8;
 
+        public static bool Compare(string password, string hash) =>
+            SHA256HashGenerator.Compute(password) == hash;
+
         public static string Hash(string password, string passwordRepeat)
         {
             if (password == passwordRepeat == false)

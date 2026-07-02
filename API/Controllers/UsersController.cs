@@ -23,6 +23,15 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPost("{login}")]
+        public async Task<IActionResult> Logined([FromBody] LoginUser loginUser)
+        {
+            if (await _userService.Login(loginUser) == false)
+                return BadRequest("Неверное имя пользователя или пароль.");
+
+            return Ok("Добро пожаловать!");
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetAll() =>
             await _userService.GetAllAsync() ?? new List<UserDto>();

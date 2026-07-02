@@ -30,6 +30,19 @@ namespace Application.Services
             await _repository.InsertAsync(user);
         }
 
+        public async Task<bool> Login(LoginUser loginUser)
+        {
+            if (string.IsNullOrWhiteSpace(loginUser.Login))
+                return false;
+
+            User? user = await _repository.GetByUsernameAsync(loginUser.Login);
+
+            if (user == null)
+                return false;
+
+            return PasswordHasher.Compare(loginUser.Password, user.PasswordHash);
+        }
+
         public async Task<List<UserDto>> GetAllAsync() =>
             (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
 
