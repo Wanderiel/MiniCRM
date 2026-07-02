@@ -32,7 +32,6 @@ namespace Domain.Models.Users
                 return false;
 
             return Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            ;
         }
     }
 }
