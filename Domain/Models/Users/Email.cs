@@ -10,14 +10,14 @@ public partial record Email
     private Email(string value) =>
         Value = value;
 
-    public string Value { get; private set; }
+    public string Value { get; init; }
 
-    public static Email Create(string? value)
+    public static Email Create(string value)
     {
-        value = value?.Trim().ToLowerInvariant();
-
         if (IsValid(value) == false)
             throw new ArgumentException("Неверный формат Email адреса");
+
+        value = value.Trim().ToLowerInvariant();
 
         return new Email(value);
     }
@@ -32,9 +32,9 @@ public partial record Email
         if (email.IsValid(value) == false)
             return false;
 
-        return MyRegex().IsMatch(value);
+        return EmailRegex().IsMatch(value);
     }
 
     [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
-    private static partial Regex MyRegex();
+    private static partial Regex EmailRegex();
 }

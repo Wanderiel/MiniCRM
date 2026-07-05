@@ -10,8 +10,8 @@ public record FullName
         LastName = lastName;
     }
 
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
 
     public static FullName Create(string firstName, string lastName)
     {
