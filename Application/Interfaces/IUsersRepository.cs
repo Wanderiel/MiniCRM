@@ -10,6 +10,5 @@ public interface IUsersRepository
     Task<User?> GetByUsernameAsync(string username);
     Task<bool> HasUserByUsernameAsync(string username);
     Task<bool> HasUserByEmailAsync(Email email);
-    Task SaveChangesAsync();
     Task<bool> DeleteAsync(int id);
 }

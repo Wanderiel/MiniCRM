@@ -9,11 +9,13 @@ namespace Application.Services;
 public class UsersService
 {
     private readonly IUsersRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHasher _passwordHasher;
 
-    public UsersService(IUsersRepository repository, IPasswordHasher passwordHasher)
+    public UsersService(IUsersRepository repository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher)
     {
         _repository = repository;
+        _unitOfWork = unitOfWork;
         _passwordHasher = passwordHasher;
     }
 
@@ -38,6 +40,7 @@ public class UsersService
         string passwordHash = _passwordHasher.Hash(userDto.Password1);
         User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
         await _repository.InsertAsync(user);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<bool> Login(LoginUserDto loginUser)
@@ -67,19 +70,26 @@ public class UsersService
             return false;
 
         await UpdateUser(user, updateUser);
+        await _unitOfWork.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<bool> DeleteAsync(int id) =>
-        await _repository.DeleteAsync(id);
+    public async Task<bool> DeleteAsync(int id)
+    {
+        bool result = await _repository.DeleteAsync(id);
+
+        if (result)
+            await _unitOfWork.SaveChangesAsync();
+
+        return result;
+    }
 
     private async Task UpdateUser(User user, UpdateUserDto updateUser)
     {
         UpdateEmail(user, updateUser.Email);
         UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
         user.UpdateAvatatUrl(updateUser.AvatarUrl);
-        await _repository.SaveChangesAsync();
     }
 
     private void UpdateEmail(User user, string? newEmail)

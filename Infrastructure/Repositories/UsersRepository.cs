@@ -12,11 +12,8 @@ public class UsersRepository : IUsersRepository
     public UsersRepository(PostgresContext context) =>
         _context = context;
 
-    public async Task InsertAsync(User user)
-    {
+    public async Task InsertAsync(User user) =>
         await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
-    }
 
     public async Task<List<User>> GetAllAsync() =>
         await _context.Users.ToListAsync();
@@ -41,11 +38,7 @@ public class UsersRepository : IUsersRepository
             return false;
 
         _context.Users.Remove(user);
-        _context.SaveChanges();
 
         return true;
     }
-
-    public async Task SaveChangesAsync() =>
-        await _context.SaveChangesAsync();
 }
