@@ -24,6 +24,9 @@ public class UsersService
         if (string.IsNullOrWhiteSpace(userDto.Username))
             throw new ArgumentException($"Имя пользователя не может быть пустым.");
 
+        if (userDto.Password1 == userDto.Password2 == false)
+            throw new InvalidPasswordException("Пароли должны совпадать.");
+
         if (await _repository.HasUserByUsernameAsync(userDto.Username))
             throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
 
@@ -33,10 +36,6 @@ public class UsersService
             throw new ArithmeticException("Email уже используется, укажите другой.");
 
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
-
-        if (userDto.Password1 == userDto.Password2 == false)
-            throw new InvalidPasswordException("Пароли должны совпадать.");
-
         string passwordHash = _passwordHasher.Hash(userDto.Password1);
         User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
         await _repository.InsertAsync(user);
