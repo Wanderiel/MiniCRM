@@ -1,20 +1,18 @@
-﻿using Domain.HashGenerators;
+﻿using Application.Interfaces;
 using Domain.Models.Exceptions;
+using Infrastructure.Security.HashGenerators;
 
-namespace Domain.Models.Users;
+namespace Infrastructure.Security;
 
-public class PasswordHasher
+public class PasswordHasher : IPasswordHasher
 {
     private const int MINLENGTH = 8;
 
-    public static bool Compare(string password, string hash) =>
+    public bool Compare(string password, string hash) =>
         SHA256HashGenerator.Compute(password) == hash;
 
-    public static string Hash(string password, string passwordRepeat)
+    public string Hash(string password)
     {
-        if (password == passwordRepeat == false)
-            throw new InvalidPasswordException("Пароли не совпадают");
-
         Validate(password);
 
         return SHA256HashGenerator.Compute(password);

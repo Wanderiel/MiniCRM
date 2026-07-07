@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Users;
 using Application.Extentions;
 using Application.Interfaces;
+using Domain.Models.Exceptions;
 using Domain.Models.Users;
 
 namespace Application.Services;
@@ -8,9 +9,13 @@ namespace Application.Services;
 public class UsersService
 {
     private readonly IUsersRepository _repository;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UsersService(IUsersRepository repository) =>
+    public UsersService(IUsersRepository repository, IPasswordHasher passwordHasher)
+    {
         _repository = repository;
+        _passwordHasher = passwordHasher;
+    }
 
     public async Task Register(CreatedUserDto userDto)
     {
@@ -26,7 +31,11 @@ public class UsersService
             throw new ArithmeticException("Email уже используется, укажите другой.");
 
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
-        string passwordHash = PasswordHasher.Hash(userDto.Password1, userDto.Password2);
+
+        if (userDto.Password1 == userDto.Password2 == false)
+            throw new InvalidPasswordException("Пароли должны совпадать.");
+
+        string passwordHash = _passwordHasher.Hash(userDto.Password1);
         User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
         await _repository.InsertAsync(user);
     }
@@ -41,7 +50,7 @@ public class UsersService
         if (user == null)
             return false;
 
-        return PasswordHasher.Compare(loginUser.Password, user.PasswordHash);
+        return _passwordHasher.Compare(loginUser.Password, user.PasswordHash);
     }
 
     public async Task<List<UserDto>> GetAllAsync() =>
