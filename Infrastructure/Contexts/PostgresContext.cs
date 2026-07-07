@@ -1,10 +1,11 @@
-﻿using Domain.Models;
+﻿using Application.Interfaces;
+using Domain.Models;
 using Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts;
 
-public class PostgresContext : DbContext
+public class PostgresContext : DbContext, IUnitOfWork
 {
     public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
     {
