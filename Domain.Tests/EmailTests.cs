@@ -8,9 +8,10 @@ public class EmailTests
     [Fact]
     public void Create_Should_CreateEmail_WhenValidData()
     {
-        string emailString = "valid@email.com";
+        string emailString = "VaLiD@email.com";
         Email email = Email.Create(emailString);
         email.Should().NotBeNull();
+        email.Value.Should().Be(emailString.ToLower());
     }
 
     [Theory]
