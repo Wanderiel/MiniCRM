@@ -9,14 +9,17 @@ public class PasswordHasher : IPasswordHasher
     private const int MINLENGTH = 8;
 
     public bool Compare(string password, string hash) =>
-        SHA256HashGenerator.Compute(password) == hash;
+        Hash(password) == hash;
 
-    public string Hash(string password)
+    public string CreateHash(string password)
     {
         Validate(password);
 
-        return SHA256HashGenerator.Compute(password);
+        return Hash(password);
     }
+
+    private string Hash(string password) =>
+        SHA256HashGenerator.Compute(password);
 
     private static void Validate(string password)
     {

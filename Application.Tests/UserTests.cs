@@ -16,7 +16,7 @@ public class UserTests
         repository.Setup(x => x.HasUserByEmailAsync(It.IsAny<Email>()))
             .ReturnsAsync(false);
 
-        passwordHasher.Setup(x => x.Hash(It.IsAny<string>()))
+        passwordHasher.Setup(x => x.CreateHash(It.IsAny<string>()))
             .Returns("hash");
     }
 }

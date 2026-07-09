@@ -36,7 +36,7 @@ public class UsersService
             throw new ArithmeticException("Email уже используется, укажите другой.");
 
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
-        string passwordHash = _passwordHasher.Hash(userDto.Password1);
+        string passwordHash = _passwordHasher.CreateHash(userDto.Password1);
         User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
         await _repository.InsertAsync(user);
         await _unitOfWork.SaveChangesAsync();
