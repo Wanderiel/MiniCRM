@@ -38,7 +38,7 @@ public class UsersService
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
         string passwordHash = _passwordHasher.CreateHash(userDto.Password1);
         User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
-        await _repository.InsertAsync(user);
+        _repository.Insert(user);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -68,7 +68,7 @@ public class UsersService
         if (user == null)
             return false;
 
-        await UpdateUser(user, updateUser);
+        UpdateUser(user, updateUser);
         await _unitOfWork.SaveChangesAsync();
 
         return true;
@@ -76,15 +76,18 @@ public class UsersService
 
     public async Task<bool> DeleteAsync(int id)
     {
-        bool result = await _repository.DeleteAsync(id);
+        User? user = await _repository.GetByIdAsync(id);
 
-        if (result)
-            await _unitOfWork.SaveChangesAsync();
+        if (user == null)
+            return false;
 
-        return result;
+        _repository.Delete(user);
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
     }
 
-    private async Task UpdateUser(User user, UpdateUserDto updateUser)
+    private void UpdateUser(User user, UpdateUserDto updateUser)
     {
         UpdateEmail(user, updateUser.Email);
         UpdateFullName(user, updateUser.FirstName, updateUser.LastName);

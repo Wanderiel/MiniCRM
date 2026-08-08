@@ -12,8 +12,8 @@ public class UsersRepository : IUsersRepository
     public UsersRepository(PostgresContext context) =>
         _context = context;
 
-    public async Task InsertAsync(User user) =>
-        await _context.Users.AddAsync(user);
+    public void Insert(User user) =>
+        _context.Users.Add(user);
 
     public async Task<List<User>> GetAllAsync() =>
         await _context.Users.ToListAsync();
@@ -30,15 +30,6 @@ public class UsersRepository : IUsersRepository
     public async Task<bool> HasUserByEmailAsync(Email email) =>
         await _context.Users.AnyAsync(u => u.Email == email);
 
-    public async Task<bool> DeleteAsync(int id)
-    {
-        User? user = await _context.Users.FindAsync(id);
-
-        if (user == null)
-            return false;
-
+    public void Delete(User user) =>
         _context.Users.Remove(user);
-
-        return true;
-    }
 }
