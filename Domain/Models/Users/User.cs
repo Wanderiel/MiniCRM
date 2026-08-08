@@ -45,7 +45,7 @@ public class User
         FullName = fullName;
     }
 
-    public void UpdateAvatatUrl(string? value)
+    public void UpdateAvatarUrl(string? value)
     {
         if (string.IsNullOrWhiteSpace(value) == false)
             AvatarUrl = value;

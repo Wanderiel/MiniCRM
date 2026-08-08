@@ -52,7 +52,7 @@ public class UsersService
     {
         UpdateEmail(user, updateUser.Email);
         UpdateFullName(user, updateUser.FirstName, updateUser.LastName);
-        user.UpdateAvatatUrl(updateUser.AvatarUrl);
+        user.UpdateAvatarUrl(updateUser.AvatarUrl);
     }
 
     private void UpdateEmail(User user, string? newEmail)

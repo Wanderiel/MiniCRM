@@ -16,8 +16,8 @@ public class UsersController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<UserDto>>> GetAll() =>
-        await _userService.GetAllAsync() ?? new List<UserDto>();
+    public async Task<List<UserDto>> GetAll() =>
+        await _userService.GetAllAsync();
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> Get(int id)
