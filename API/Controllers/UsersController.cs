@@ -15,23 +15,6 @@ public class UsersController : Controller
         _userService = userService;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto)
-    {
-        await _userService.Register(userDto);
-
-        return Ok();
-    }
-
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginUserDto loginUser)
-    {
-        if (await _userService.Login(loginUser) == false)
-            return BadRequest("Неверное имя пользователя или пароль.");
-
-        return Ok("Добро пожаловать!");
-    }
-
     [HttpGet]
     public async Task<ActionResult<List<UserDto>>> GetAll() =>
         await _userService.GetAllAsync() ?? new List<UserDto>();
