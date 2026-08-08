@@ -29,5 +29,4 @@ public class AuthController : Controller
 
         return Ok("Добро пожаловать!");
     }
-
 }
