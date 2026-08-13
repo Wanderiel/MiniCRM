@@ -2,6 +2,7 @@
 using Application.Extentions;
 using Application.Interfaces;
 using Domain.Models.Users;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -9,11 +10,13 @@ public class UsersService
 {
     private readonly IUsersRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<UsersService> _logger;
 
-    public UsersService(IUsersRepository repository, IUnitOfWork unitOfWork)
+    public UsersService(IUsersRepository repository, IUnitOfWork unitOfWork, ILogger<UsersService> logger)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _logger = logger;
     }
 
     public async Task<List<UserDto>> GetAllAsync() =>

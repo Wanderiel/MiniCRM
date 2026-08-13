@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging();
 
 if (builder.Environment.EnvironmentName == PROFILE_LOCAL)
     builder.Configuration.AddUserSecrets<Program>();
