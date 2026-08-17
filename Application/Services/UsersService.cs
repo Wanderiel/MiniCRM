@@ -19,8 +19,12 @@ public class UsersService
         _logger = logger;
     }
 
-    public async Task<List<UserDto>> GetAllAsync() =>
-        (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
+    public async Task<List<UserDto>> GetAllAsync()
+    {
+        _logger.LogDebug("Получение всех пользователей...");
+
+        return (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
+    }
 
     public async Task<UserDto?> GetAsync(int id) =>
         (await _repository.GetByIdAsync(id))?.ToDto();
