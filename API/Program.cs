@@ -1,5 +1,7 @@
+using API.Validators;
 using Application.Interfaces;
 using Application.Services;
+using FluentValidation;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories;
 using Infrastructure.Security;
@@ -28,6 +30,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
 builder.Services.AddScoped<ProjectsService>();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterValidator>();
 
 var app = builder.Build();
 

@@ -1,5 +1,7 @@
 ﻿using Application.Dtos.Users;
 using Application.Services;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -14,8 +16,13 @@ public class AuthController : Controller
         _authService = authService;
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto)
+    public async Task<IActionResult> Register([FromBody] CreatedUserDto userDto, [FromServices] IValidator<CreatedUserDto> validator)
     {
+        ValidationResult validationResult = validator.Validate(userDto);
+
+        if (validationResult.IsValid == false)
+            return UnprocessableEntity(validationResult.Errors);
+
         await _authService.Register(userDto);
 
         return Ok();
