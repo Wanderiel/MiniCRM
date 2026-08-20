@@ -6,7 +6,7 @@ namespace API.Validators;
 public class RegisterValidator : AbstractValidator<CreatedUserDto>
 {
     private const int MinimumLengthUsername = 3;
-    private const int MaximumLengthPassword = 8;
+    private const int MinimumLengthPassword = 8;
 
     public RegisterValidator()
     {
@@ -26,7 +26,7 @@ public class RegisterValidator : AbstractValidator<CreatedUserDto>
 
         RuleFor(x => x.Password1)
             .NotEmpty().WithMessage("Пароль не может быть пустым.")
-            .MinimumLength(MaximumLengthPassword).WithMessage($"Пароль должен содержать минимум {MaximumLengthPassword} символов.");
+            .MinimumLength(MinimumLengthPassword).WithMessage($"Пароль должен содержать минимум {MinimumLengthPassword} символов.");
 
         RuleFor(x => x.Password2)
             .Equal(x => x.Password1).WithMessage("Пароли должны совпадать.");
