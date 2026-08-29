@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.Users;
 using Application.Interfaces;
-using Domain.Models.Exceptions;
 using Domain.Models.Users;
 
 namespace Application.Services;
@@ -20,12 +19,6 @@ public class AuthService
 
     public async Task Register(CreatedUserDto userDto)
     {
-        if (string.IsNullOrWhiteSpace(userDto.Username))
-            throw new ArgumentException($"Имя пользователя не может быть пустым.");
-
-        if (userDto.Password1 == userDto.Password2 == false)
-            throw new InvalidPasswordException("Пароли должны совпадать.");
-
         if (await _repository.HasUserByUsernameAsync(userDto.Username))
             throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
 
