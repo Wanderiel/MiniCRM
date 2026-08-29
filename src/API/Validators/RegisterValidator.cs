@@ -17,12 +17,12 @@ public class RegisterValidator : AbstractValidator<RegisteredUserDto>
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Имя пользователя не может быть пустым.")
             .MinimumLength(MinimumLengthUsername).WithMessage($"Имя пользователя должно содержать минимум {MinimumLengthUsername} символа.")
-            .MustAsync(HasUserByUsername).WithMessage("Имя пользователя уже занято, придумайте другое.");
+            .MustAsync(IsUsernameAvailable).WithMessage("Имя пользователя уже занято, придумайте другое.");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email не может быть пустым.")
             .EmailAddress().WithMessage("Некорректный формат Email.")
-            .MustAsync(HasUserByEmail).WithMessage("Email уже используется, укажите другой.");
+            .MustAsync(IsEmailAvailable).WithMessage("Email уже используется, укажите другой.");
 
         RuleFor(x => x.FirstName)
             .NotEmpty().WithMessage("Имя не может быть пустым.");
@@ -39,9 +39,9 @@ public class RegisterValidator : AbstractValidator<RegisteredUserDto>
         _userLookup = userLookup;
     }
 
-    private async Task<bool> HasUserByUsername(string username, CancellationToken token) =>
+    private async Task<bool> IsUsernameAvailable(string username, CancellationToken token) =>
         await _userLookup.HasUserByUsernameAsync(username) == false;
 
-    private async Task<bool> HasUserByEmail(string email, CancellationToken token) =>
+    private async Task<bool> IsEmailAvailable(string email, CancellationToken token) =>
         await _userLookup.HasUserByEmail(Email.Create(email)) == false;
 }
