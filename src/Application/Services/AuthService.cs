@@ -36,7 +36,7 @@ public class AuthService
 
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
         string passwordHash = _passwordHasher.CreateHash(userDto.Password1);
-        User user = new User(userDto.Username, email, fullName, userDto.AvatarUrl, passwordHash);
+        User user = new User(userDto.Username.ToLower(), email, fullName, userDto.AvatarUrl, passwordHash);
         _repository.Insert(user);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -46,7 +46,7 @@ public class AuthService
         if (string.IsNullOrWhiteSpace(loginUser.Login))
             return false;
 
-        User? user = await _repository.GetByUsernameAsync(loginUser.Login);
+        User? user = await _repository.GetByUsernameAsync(loginUser.Login.ToLower());
 
         if (user == null)
             return false;
