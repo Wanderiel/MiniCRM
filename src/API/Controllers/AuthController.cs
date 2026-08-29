@@ -18,7 +18,7 @@ public class AuthController : Controller
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisteredUserDto userDto, [FromServices] IValidator<RegisteredUserDto> validator)
     {
-        ValidationResult validationResult = validator.Validate(userDto);
+        ValidationResult validationResult = await validator.ValidateAsync(userDto);
 
         if (validationResult.IsValid == false)
             return UnprocessableEntity(validationResult.Errors);

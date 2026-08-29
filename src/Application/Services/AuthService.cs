@@ -19,14 +19,7 @@ public class AuthService
 
     public async Task Register(RegisteredUserDto userDto)
     {
-        if (await _repository.HasUserByUsernameAsync(userDto.Username))
-            throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
-
         Email email = Email.Create(userDto.Email);
-
-        if (await _repository.HasUserByEmailAsync(email))
-            throw new ArithmeticException("Email уже используется, укажите другой.");
-
         FullName fullName = FullName.Create(userDto.FirstName, userDto.LastName);
         string passwordHash = _passwordHasher.CreateHash(userDto.Password1);
         User user = new User(userDto.Username.ToLower(), email, fullName, userDto.AvatarUrl, passwordHash);

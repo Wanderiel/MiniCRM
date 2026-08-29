@@ -26,6 +26,7 @@ builder.Services.AddDbContext<IUnitOfWork, PostgresContext>(options =>
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<IUserLookup, UserLookupService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
