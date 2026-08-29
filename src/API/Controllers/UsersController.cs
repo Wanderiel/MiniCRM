@@ -31,7 +31,7 @@ public class UsersController : Controller
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto userDto)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdatedUserDto userDto)
     {
         bool result = await _userService.UpdateAsync(id, userDto);
 

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace API.Validators;
 
-public class RegisterValidator : AbstractValidator<CreatedUserDto>
+public class RegisterValidator : AbstractValidator<RegisteredUserDto>
 {
     private const int MinimumLengthUsername = 3;
     private const int MinimumLengthPassword = 8;

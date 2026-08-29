@@ -33,7 +33,7 @@ public class UsersService
         return (await _repository.GetByIdAsync(userId))?.ToDto();
     }
 
-    public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
+    public async Task<bool> UpdateAsync(int id, UpdatedUserDto updateUser)
     {
         UserId userId = new UserId(id);
         User? user = await _repository.GetByIdAsync(userId);
@@ -61,7 +61,7 @@ public class UsersService
         return true;
     }
 
-    private void UpdateUser(User user, UpdateUserDto updateUser)
+    private void UpdateUser(User user, UpdatedUserDto updateUser)
     {
         UpdateEmail(user, updateUser.Email);
         UpdateFullName(user, updateUser.FirstName, updateUser.LastName);

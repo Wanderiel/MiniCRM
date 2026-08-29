@@ -1,6 +1,6 @@
 ﻿namespace Application.Dtos.Users;
 
-public class UpdateUserDto
+public class UpdatedUserDto
 {
     public string? Email { get; set; }
     public string? FirstName { get; set; }

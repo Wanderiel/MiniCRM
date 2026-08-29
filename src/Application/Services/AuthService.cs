@@ -17,7 +17,7 @@ public class AuthService
         _passwordHasher = passwordHasher;
     }
 
-    public async Task Register(CreatedUserDto userDto)
+    public async Task Register(RegisteredUserDto userDto)
     {
         if (await _repository.HasUserByUsernameAsync(userDto.Username))
             throw new ArgumentException("Имя пользователя уже занято, придумайте другое.");
