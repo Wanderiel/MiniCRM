@@ -17,7 +17,7 @@ public class User
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public UserId Id { get; private set; }
     [Required, StringLength(50)]
     public string Username { get; private set; }
     [Required]

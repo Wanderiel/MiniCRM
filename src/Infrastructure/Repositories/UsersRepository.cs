@@ -18,8 +18,8 @@ public class UsersRepository : IUsersRepository
     public async Task<List<User>> GetAllAsync() =>
         await _context.Users.ToListAsync();
 
-    public async Task<User?> GetByIdAsync(int id) =>
-        await _context.Users.FindAsync(id);
+    public async Task<User?> GetByIdAsync(UserId userId) =>
+        await _context.Users.FindAsync(userId);
 
     public async Task<User?> GetByUsernameAsync(string username) =>
         await _context.Users.FirstOrDefaultAsync(u => u.Username == username);

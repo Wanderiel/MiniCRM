@@ -26,12 +26,17 @@ public class UsersService
         return (await _repository.GetAllAsync()).Select(user => user.ToDto()).ToList();
     }
 
-    public async Task<UserDto?> GetAsync(int id) =>
-        (await _repository.GetByIdAsync(id))?.ToDto();
+    public async Task<UserDto?> GetAsync(int id)
+    {
+        UserId userId = new UserId(id);
+
+        return (await _repository.GetByIdAsync(userId))?.ToDto();
+    }
 
     public async Task<bool> UpdateAsync(int id, UpdateUserDto updateUser)
     {
-        User? user = await _repository.GetByIdAsync(id);
+        UserId userId = new UserId(id);
+        User? user = await _repository.GetByIdAsync(userId);
 
         if (user == null)
             return false;
@@ -44,7 +49,8 @@ public class UsersService
 
     public async Task<bool> DeleteAsync(int id)
     {
-        User? user = await _repository.GetByIdAsync(id);
+        UserId userId = new UserId(id);
+        User? user = await _repository.GetByIdAsync(userId);
 
         if (user == null)
             return false;

@@ -31,14 +31,19 @@ public class PostgresContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(bilder =>
+        modelBuilder.Entity<User>(builder =>
         {
-            bilder.Property(u => u.Email)
+            builder.Property(u => u.Id)
+                .HasConversion(
+                    userId => userId.Value,
+                    userId => new UserId(userId));
+
+            builder.Property(u => u.Email)
                 .HasConversion(
                     email => email.Value,
                     email => Email.Create(email));
 
-            bilder.OwnsOne(
+            builder.OwnsOne(
                 user => user.FullName,
                 fName =>
                 {
@@ -46,10 +51,10 @@ public class PostgresContext : DbContext, IUnitOfWork
                     fName.Property(p => p.LastName).HasColumnName("LastName");
                 });
 
-            bilder.HasIndex(u => u.Email)
+            builder.HasIndex(u => u.Email)
                 .IsUnique();
 
-            bilder.HasIndex(user => user.Username)
+            builder.HasIndex(user => user.Username)
                 .IsUnique();
         });
 
